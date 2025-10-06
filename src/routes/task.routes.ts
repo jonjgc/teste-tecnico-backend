@@ -5,6 +5,8 @@ import { ListTasksController } from "../controllers/ListTasksController";
 import { GetTaskController } from "../controllers/GetTaskController";
 import { UpdateTaskController } from "../controllers/UpdateTaskController";
 import { DeleteTaskController } from "../controllers/DeleteTaskController";
+import { validate } from "../middlewares/validationMiddleware";
+import { createTaskSchema } from "../schemas/taskSchemas";
 
 const taskRoutes = Router();
 
@@ -14,7 +16,7 @@ const getTaskController = new GetTaskController();
 const updateTaskController = new UpdateTaskController();
 const deleteTaskController = new DeleteTaskController();
 
-taskRoutes.post("/tasks", createTaskController.handle);
+taskRoutes.post("/tasks", validate(createTaskSchema), createTaskController.handle);
 taskRoutes.get("/tasks", listTasksController.handle);
 taskRoutes.get("/tasks/:id", getTaskController.handle);
 taskRoutes.put("/tasks/:id", updateTaskController.handle);
